@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,8 +16,9 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-  // Используем метод secretKeyFor для генерации безопасного ключа для HS256
-  private final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+  private static final String SECRET = "01234567890123456789012345678901";  // Минимум 32 байта
+  public static final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+
 
   // Извлечение имени пользователя (или subject) из токена
   public String extractUsername(String token) {
